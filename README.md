@@ -51,8 +51,8 @@ You can do a number of nifty things with Datumo:
 
 - [**Validate data**](#validation) - harness the power of [lx-valid][lx-valid]
   for quick-and-easy validation
-- [**Subclass models**](#subclassing) - easily create of models for subsets of
-  your data
+- [**Subclass models**](#subclassing) - easily create models for subsets of your
+  data
 - [**Extend models**](#extension) - take advantage of ES6 classes to easily
   extend models
 - [**Map data properties**](#mapping) - easily handle data from a 3rd-party that
