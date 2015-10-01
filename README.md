@@ -49,13 +49,13 @@ syntactically compact.
 
 You can do a number of nifty things with Datumo:
 
-- [**Validate data**](#Validation) - harness the power of [lx-valid][lx-valid]
+- [**Validate data**](#validation) - harness the power of [lx-valid][lx-valid]
   for quick-and-easy validation
-- [**Subclass models**](#Subclassing) - easily create of models for subsets of
+- [**Subclass models**](#subclassing) - easily create of models for subsets of
   your data
-- [**Extend models**](#Extension) - take advantage of ES6 classes to easily
+- [**Extend models**](#extension) - take advantage of ES6 classes to easily
   extend models
-- [**Map data properties**](#Mapping) - easily handle data from a 3rd-party that
+- [**Map data properties**](#mapping) - easily handle data from a 3rd-party that
   has the data you need, but with different property names
 - **Avoid extraneous data** - Datumo model instances only allow setting
   properties defined on the schema
