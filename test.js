@@ -95,3 +95,33 @@ let offlineJeff = new OfflinePerson({
 console.log(JSON.stringify(offlineJeff, null, 2))
 
 console.log(offlineJeff.validate())
+
+class Worker extends Person {
+  static get schema () {
+    let schema = super.schema
+    Object.assign(schema, {
+      position: {
+        type: 'string',
+        required: true
+      },
+      company: {
+        type: 'string',
+        required: true
+      }
+    })
+    return schema
+  }
+}
+
+let alex = new Worker({
+  givenName: 'Alex',
+  familyName: 'Ueltzhöfer',
+  position: 'Lead Architectural Engineer',
+  company: 'ACME Company'
+})
+
+console.log(Worker.schema)
+console.dir(new Worker())
+console.log(Object.getOwnPropertySymbols(new Worker()))
+
+console.log(JSON.stringify(alex, null, 2))
