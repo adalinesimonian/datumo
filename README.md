@@ -262,6 +262,10 @@ class User extends Datumo.Model {
 }
 ```
 
+## License
+
+MIT
+
 [jshiki]: https://github.com/vsimonian/jshiki
 [lx-valid]: https://github.com/litixsoft/lx-valid
 [lx-valid-options]: https://github.com/litixsoft/lx-valid#schema-validation
