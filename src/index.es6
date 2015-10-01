@@ -1,5 +1,7 @@
 'use strict'
 
+import lxValid from 'lx-valid'
+
 export class Model {
   constructor (data = {}) {
     let schema = this.constructor.schema
@@ -80,5 +82,16 @@ export class Model {
     return class Subset extends this {
       static get schema () { return subsetSchema }
     }
+  }
+
+  static validate (data) {
+    if (typeof this.schema !== 'object' || !this.schema) {
+      throw new Error('No schema set on class')
+    }
+    return lxValid.validate(data, { properties: this.schema })
+  }
+
+  validate () {
+    return this.constructor.validate(this)
   }
 }

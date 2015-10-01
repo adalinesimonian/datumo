@@ -69,3 +69,29 @@ console.log(Object.getOwnPropertySymbols(new Friend()))
 let friendAmanda = new Friend(amanda)
 
 console.log(JSON.stringify(friendAmanda, null, 2))
+
+let jeff = new Person({
+  givenName: 'Jeff',
+  email: 'Don\'t send me emails!'
+})
+
+console.log(JSON.stringify(jeff, null, 2))
+
+console.log(jeff.validate())
+
+jeff.familyName = 'Kashkarian'
+
+console.log(jeff.validate())
+
+jeff.email = 'jeff.kashkarian@example.com'
+
+console.log(jeff.validate())
+
+let offlineJeff = new OfflinePerson({
+  givenName: 'Jeff',
+  email: 'Don\'t send me emails!'
+})
+
+console.log(JSON.stringify(offlineJeff, null, 2))
+
+console.log(offlineJeff.validate())

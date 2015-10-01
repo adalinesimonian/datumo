@@ -44,5 +44,7 @@
     "gulp-watch": "^4.3.5",
     "through2": "^2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "lx-valid": "^0.5.6"
+  }
 }
