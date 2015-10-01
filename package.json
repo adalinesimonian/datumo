@@ -1,7 +1,7 @@
 {
   "name": "datumo",
   "version": "0.0.1",
-  "description": "Lightweight data-modelling for Node.js",
+  "description": "Lightweight data modelling for Node.js",
   "main": "lib/index.js",
   "scripts": {
     "start": "node lib/server.js",
