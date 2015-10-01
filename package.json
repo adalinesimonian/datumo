@@ -8,8 +8,8 @@
     "compile": "gulp babel",
     "compile-watch": "gulp babel-watch",
     "prepublish": "npm run compile",
-    "test": "mocha test/**/*.es6 && npm run lint",
-    "test-watch": "mocha test/**/*.es6 --watch",
+    "test": "npm run compile && mocha test/**/*.es6 && npm run lint",
+    "test-watch": "npm run compile && mocha test/**/*.es6 --watch",
     "lint": "eslint src/**/*.es6 test/**/*.es6 && echo Code looks good!"
   },
   "keywords": [
