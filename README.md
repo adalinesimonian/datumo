@@ -1,5 +1,5 @@
 # datumo
 
-Lightweight data-modelling
+Lightweight data-modelling for Node.js
 
 A work-in-progress
