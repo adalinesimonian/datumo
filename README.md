@@ -1,5 +1,7 @@
 # datumo
 
+[![Build Status](https://travis-ci.org/vsimonian/datumo.svg?branch=master)](https://travis-ci.org/vsimonian/datumo)
+
 Lightweight data-modelling for Node.js
 
 ## Basic Usage
