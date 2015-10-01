@@ -3,6 +3,21 @@
 import lxValid from 'lx-valid'
 import jshiki from 'jshiki'
 
+function mapData (mapping, data) {
+  let mappedData = {}
+  for (let targetProperty of Object.getOwnPropertyNames(mapping)) {
+    if (typeof mapping[targetProperty] === 'object') {
+      mappedData[targetProperty] = mapData(mapping[targetProperty], data)
+    } else if (typeof mapping[targetProperty] === 'string') {
+      let map = jshiki.parse(mapping[targetProperty], { scope: data })
+      mappedData[targetProperty] = map.eval()
+    } else {
+      throw new Error('mapping value must be an object or a string')
+    }
+  }
+  return mappedData
+}
+
 export class Model {
   constructor (data = {}, { mapping } = {}) {
     let schema = this.constructor.schema
@@ -23,7 +38,6 @@ export class Model {
       if (typeof mapping !== 'object' && typeof mapping !== 'string') {
         throw new Error('mapping must be specified as an object or a string')
       }
-      let mappedData = {}
       for (let targetProperty of Object.getOwnPropertyNames(mapping)) {
         if (!schema.hasOwnProperty(targetProperty)) {
           throw new Error(
@@ -31,11 +45,9 @@ export class Model {
           )
         }
       }
+      let mappedData = mapData(mapping, data)
       for (let targetProperty of Object.getOwnPropertyNames(schema)) {
-        if (mapping.hasOwnProperty(targetProperty)) {
-          let map = jshiki.parse(mapping[targetProperty], { scope: data })
-          mappedData[targetProperty] = map.eval()
-        } else {
+        if (!mappedData.hasOwnProperty(targetProperty)) {
           mappedData[targetProperty] = data[targetProperty]
         }
       }

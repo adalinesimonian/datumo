@@ -148,3 +148,47 @@ console.log(JSON.stringify(new MappedPerson({
   givenName: 'Thomas',
   surname: 'Conway'
 }, { mapping: 'ldap' }), null, 2))
+
+class AddressablePerson extends Person {
+  static get schema () {
+    let schema = super.schema
+    Object.assign(schema, {
+      address: {
+        type: 'object',
+        properties: {
+          street: { type: 'string' },
+          locality: { type: 'string' },
+          region: { type: 'string' },
+          postalCode: { type: 'string' },
+          country: { type: 'string' }
+        }
+      }
+    })
+    return schema
+  }
+  static get mappings () {
+    return {
+      'ldap': {
+        familyName: 'sn || surname',
+        address: {
+          street: 'streetAddress || street',
+          locality: 'l',
+          region: 'st',
+          postalCode: 'postalCode',
+          country: 'co'
+        }
+      }
+    }
+  }
+}
+
+console.log(JSON.stringify(new AddressablePerson({
+  givenName: 'Lavinia',
+  middleName: 'Goncalves',
+  sn: 'Barbosa',
+  streetAddress: 'Avenida Juca Macedo, 1643',
+  l: 'Montes Claros',
+  region: 'MG',
+  postalCode: '39401-441',
+  co: 'Brazil'
+}, { mapping: 'ldap' }), null, 2))
