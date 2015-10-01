@@ -8,7 +8,9 @@
     "compile": "gulp babel",
     "compile-watch": "gulp babel-watch",
     "prepublish": "npm run compile",
-    "test": "eslint src/**/*.es6 && echo Code looks good!"
+    "test": "mocha test/**/*.es6 && npm run lint",
+    "test-watch": "mocha test/**/*.es6 --watch",
+    "lint": "eslint src/**/*.es6 test/**/*.es6 && echo Code looks good!"
   },
   "files": [
     "lib"
@@ -34,6 +36,7 @@
   "license": "MIT",
   "devDependencies": {
     "babel": "^5.8.23",
+    "chai": "^3.3.0",
     "del": "^2.0.2",
     "eslint": "^1.4.1",
     "eslint-config-standard": "^4.3.2",
@@ -42,6 +45,7 @@
     "gulp-babel": "^5.2.1",
     "gulp-plumber": "^1.0.1",
     "gulp-watch": "^4.3.5",
+    "mocha": "^2.3.3",
     "through2": "^2.0.0"
   },
   "dependencies": {
