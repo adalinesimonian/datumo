@@ -12,6 +12,23 @@
     "test-watch": "mocha test/**/*.es6 --watch",
     "lint": "eslint src/**/*.es6 test/**/*.es6 && echo Code looks good!"
   },
+  "keywords": [
+    "data",
+    "model",
+    "modelling",
+    "schema",
+    "persistence",
+    "validate",
+    "validation",
+    "es6",
+    "class",
+    "classes",
+    "object",
+    "objects",
+    "JSON",
+    "light",
+    "lightweight"
+  ],
   "files": [
     "lib"
   ],
