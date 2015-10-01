@@ -67,6 +67,32 @@ data in one shot.
 Because Datumo delegates validation to [lx-valid][lx-valid], Datumo supports
 [all of the options lx-valid supports][lx-valid-options] on schemas.
 
+```javascript
+let Datumo = require('datumo')
+
+class Person extends Datumo.Model {
+  static get schema () {
+    return {
+      givenName: { type: 'string', required: true },
+      middleName: { type: 'string' },
+      familyName: { type: 'string', required: true },
+      email: { type: 'string', format: 'email' }
+    }
+  }
+}
+
+let jeff = new Person({
+  givenName: 'Jeff',
+  email: 'Don\'t send me any e-mails!'
+})
+let validationResults = jeff.validate()
+
+validationResults.valid === false
+validationResults.errors.length === 2
+// familyName is required
+// email is not a valid e-mail address
+```
+
 ### Extension
 
 Because Datumo models are ES6 classes, you can easily extend them:
