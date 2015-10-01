@@ -2,8 +2,6 @@
 
 Lightweight data-modelling for Node.js
 
-A work-in-progress
-
 ## Basic Usage
 
 **Datumo requires Node.js 4.0 or later.**
