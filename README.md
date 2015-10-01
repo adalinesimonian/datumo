@@ -186,12 +186,12 @@ exclusively. For example:
 ```javascript
 class Friend extends Person.subset('givenName', 'email') {}
 
-let offlineAmanda = new OfflinePerson(amanda)
+let friendAmanda = new Friend(amanda)
 
-offlineAmanda.givenName === 'Amanda'
-offlineAmanda.middleName === undefined
-offlineAmanda.familyName === undefined
-offlineAmanda.email === 'amanda@example.com'
+friendAmanda.givenName === 'Amanda'
+friendAmanda.middleName === undefined
+friendAmanda.familyName === undefined
+friendAmanda.email === 'amanda@example.com'
 ```
 
 ### Mapping
