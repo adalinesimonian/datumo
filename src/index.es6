@@ -18,13 +18,34 @@ function mapData (mapping, data) {
   return mappedData
 }
 
+function constructData (schema, data = {}, { defaults = true } = {}) {
+  let target = {}
+  for (let property of Object.getOwnPropertyNames(schema)) {
+    let subData = typeof data[property] !== 'undefined' ? data[property] : {}
+    let subSchema = schema[property].properties
+    let subProperties = subSchema ? Object.getOwnPropertyNames(subSchema) : []
+    if (subProperties.some(property =>
+      typeof subData[property] !== 'undefined' ||
+      (defaults && typeof subSchema[property].default !== 'undefined')
+    )) {
+      target[property] = constructData(subSchema, subData, { defaults })
+    } else {
+      target[property] = data.hasOwnProperty(property) ? data[property]
+        : (defaults ? schema[property].default : undefined)
+    }
+  }
+  return target
+}
+
 export class Model {
-  constructor (data = {}, { mapping } = {}) {
+  constructor (data = {}, { mapping, defaults = true } = {}) {
     let schema = this.constructor.schema
     if (typeof schema !== 'object' || !schema) {
       throw new Error('No schema set on class')
     }
-    if (typeof data !== 'object' || !data) {
+    if (data === null) {
+      data = {}
+    } else if (typeof data !== 'object' || !data) {
       throw new Error('data must be an object')
     }
 
@@ -54,12 +75,14 @@ export class Model {
       data = mappedData
     }
 
+    data = constructData(schema, data, { defaults })
+
     for (let property of Object.getOwnPropertyNames(schema)) {
       if (typeof schema[property] !== 'object' || !schema[property]) {
         throw new Error(`${property} is not a valid property definition`)
       }
       let key = Symbol(property)
-      this[key] = data.hasOwnProperty(property) ? data[property] : undefined
+      this[key] = data[property]
       Object.defineProperty(this, property, {
         get: schema[property].get
           ? () => this.schema[property].get(this[key])

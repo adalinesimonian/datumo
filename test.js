@@ -192,3 +192,59 @@ console.log(JSON.stringify(new AddressablePerson({
   postalCode: '39401-441',
   co: 'Brazil'
 }, { mapping: 'ldap' }), null, 2))
+
+class Fox extends Datumo.Model {
+  static get schema () {
+    return {
+      tagLocation: {
+        type: 'object',
+        properties: {
+          lat: {
+            type: 'float',
+            default: 0.0
+          },
+          long: {
+            type: 'float',
+            default: 0.0
+          }
+        }
+      },
+      fluffy: {
+        type: 'boolean',
+        default: true
+      },
+      colour: {
+        type: 'string',
+        default: 'red',
+        enum: [
+          'red', 'grey', 'cross', 'brown', 'silver', 'platinum', 'amber',
+          'samson'
+        ]
+      },
+      legs: {
+        type: 'integer',
+        minimum: 0,
+        maximum: 4,
+        default: 4
+      }
+    }
+  }
+}
+
+console.log(JSON.stringify(new Fox(), null, 2))
+
+console.log(JSON.stringify(new Fox(null, { defaults: false }), null, 2))
+
+console.log(JSON.stringify(new Fox({
+  colour: 'silver',
+  tagLocation: {
+    lat: 83.2074987
+  }
+}), null, 2))
+
+console.log(JSON.stringify(new Fox({
+  colour: 'silver',
+  tagLocation: {
+    lat: 83.2074987
+  }
+}, { defaults: false }), null, 2))
