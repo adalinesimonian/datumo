@@ -125,3 +125,26 @@ console.dir(new Worker())
 console.log(Object.getOwnPropertySymbols(new Worker()))
 
 console.log(JSON.stringify(alex, null, 2))
+
+console.log(JSON.stringify(new Person({
+  given_name: 'Kimiyo',
+  family_name: 'Ideguchi'
+}, { mapping: {
+  givenName: 'given_name',
+  familyName: 'family_name'
+}}), null, 2))
+
+class MappedPerson extends Person {
+  static get mappings () {
+    return {
+      'ldap': {
+        familyName: 'sn || surname'
+      }
+    }
+  }
+}
+
+console.log(JSON.stringify(new MappedPerson({
+  givenName: 'Thomas',
+  surname: 'Conway'
+}, { mapping: 'ldap' }), null, 2))

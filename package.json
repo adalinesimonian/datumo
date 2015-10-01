@@ -45,6 +45,7 @@
     "through2": "^2.0.0"
   },
   "dependencies": {
+    "jshiki": "0.0.3",
     "lx-valid": "^0.5.6"
   }
 }

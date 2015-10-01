@@ -1,15 +1,45 @@
 'use strict'
 
 import lxValid from 'lx-valid'
+import jshiki from 'jshiki'
 
 export class Model {
-  constructor (data = {}) {
+  constructor (data = {}, { mapping } = {}) {
     let schema = this.constructor.schema
     if (typeof schema !== 'object' || !schema) {
       throw new Error('No schema set on class')
     }
     if (typeof data !== 'object' || !data) {
       throw new Error('data must be an object')
+    }
+
+    if (mapping) {
+      if (typeof mapping === 'string') {
+        if (!this.constructor.mappings || !this.constructor.mappings[mapping]) {
+          throw new Error(`The mapping ${mapping} is not defined on the class`)
+        }
+        mapping = this.constructor.mappings[mapping]
+      }
+      if (typeof mapping !== 'object' && typeof mapping !== 'string') {
+        throw new Error('mapping must be specified as an object or a string')
+      }
+      let mappedData = {}
+      for (let targetProperty of Object.getOwnPropertyNames(mapping)) {
+        if (!schema.hasOwnProperty(targetProperty)) {
+          throw new Error(
+            `Property ${targetProperty} is not defined on the schema`
+          )
+        }
+      }
+      for (let targetProperty of Object.getOwnPropertyNames(schema)) {
+        if (mapping.hasOwnProperty(targetProperty)) {
+          let map = jshiki.parse(mapping[targetProperty], { scope: data })
+          mappedData[targetProperty] = map.eval()
+        } else {
+          mappedData[targetProperty] = data[targetProperty]
+        }
+      }
+      data = mappedData
     }
 
     for (let property of Object.getOwnPropertyNames(schema)) {
