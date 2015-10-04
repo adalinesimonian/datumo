@@ -134,7 +134,7 @@ let alex = new Worker({
 
 ### Subclassing
 
-Say you have a model that allows for sensitive information. Or, perhaps, you
+Say you have a model that may contain sensitive information. Or, perhaps, you
 have a model that has all the data you need, but has a bit too much. With
 Datumo, it's easy to create a new model that has only the data you need.
 
