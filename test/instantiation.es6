@@ -72,6 +72,40 @@ describe('Model instantiation', () => {
       })
     })
 
+    describe('with data containing null values', () => {
+      it('should contain the given data and null values', () => {
+        let Person = testModels.createPersonModel()
+        let person = new Person({
+          givenName: 'Lavinia',
+          middleName: null,
+          familyName: 'Barbosa',
+          email: 'lavinia@example.com'
+        })
+
+        expect(person.givenName).to.equal('Lavinia')
+        expect(person.middleName).to.equal(null)
+        expect(person.familyName).to.equal('Barbosa')
+        expect(person.email).to.equal('lavinia@example.com')
+      })
+    })
+
+    describe('with data containing null values, using nullAsUndefined', () => {
+      it('should contain the given data with undefined instead of null', () => {
+        let Person = testModels.createPersonModel()
+        let person = new Person({
+          givenName: 'Lavinia',
+          middleName: null,
+          familyName: 'Barbosa',
+          email: 'lavinia@example.com'
+        }, { nullAsUndefined: true })
+
+        expect(person.givenName).to.equal('Lavinia')
+        expect(person.middleName).to.equal(undefined)
+        expect(person.familyName).to.equal('Barbosa')
+        expect(person.email).to.equal('lavinia@example.com')
+      })
+    })
+
     describe('with defaults', () => {
       it('should use defaults if no data is given', () => {
         let Fox = testModels.createFoxModel()
@@ -105,6 +139,36 @@ describe('Model instantiation', () => {
         expect(fox.tagLocation).to.eql({ lat: 45.123765, long: -123.113785 })
         expect(fox.fluffy).to.equal(false)
         expect(fox.colour).to.equal('amber')
+        expect(fox.legs).to.equal(0)
+      })
+
+      it('should not use defaults for null properties', () => {
+        let Fox = testModels.createFoxModel()
+        let fox = new Fox({
+          tagLocation: { lat: 45.123765, long: -123.113785 },
+          fluffy: false,
+          colour: null,
+          legs: 0
+        })
+
+        expect(fox.tagLocation).to.eql({ lat: 45.123765, long: -123.113785 })
+        expect(fox.fluffy).to.equal(false)
+        expect(fox.colour).to.equal(null)
+        expect(fox.legs).to.equal(0)
+      })
+
+      it('should use defaults for null properties with nullAsUndefined', () => {
+        let Fox = testModels.createFoxModel()
+        let fox = new Fox({
+          tagLocation: { lat: 45.123765, long: -123.113785 },
+          fluffy: false,
+          colour: null,
+          legs: 0
+        }, { nullAsUndefined: true })
+
+        expect(fox.tagLocation).to.eql({ lat: 45.123765, long: -123.113785 })
+        expect(fox.fluffy).to.equal(false)
+        expect(fox.colour).to.equal('red')
         expect(fox.legs).to.equal(0)
       })
     })

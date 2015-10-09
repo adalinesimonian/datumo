@@ -18,7 +18,9 @@ function mapData (mapping, data) {
   return mappedData
 }
 
-function constructData (schema, data = {}, { defaults = true } = {}) {
+function constructData (schema, data = {}, {
+  defaults = true, nullAsUndefined
+} = {}) {
   let target = {}
   for (let property of Object.getOwnPropertyNames(schema)) {
     let subData = typeof data[property] !== 'undefined' ? data[property] : {}
@@ -28,9 +30,14 @@ function constructData (schema, data = {}, { defaults = true } = {}) {
       typeof subData[property] !== 'undefined' ||
       (defaults && typeof subSchema[property].default !== 'undefined')
     )) {
-      target[property] = constructData(subSchema, subData, { defaults })
+      target[property] = constructData(subSchema, subData, {
+        defaults, nullAsUndefined
+      })
     } else {
-      target[property] = data.hasOwnProperty(property) ? data[property]
+      target[property] = (
+        data.hasOwnProperty(property) &&
+        (!nullAsUndefined || data[property] !== null)
+      ) ? data[property]
         : (defaults ? schema[property].default : undefined)
     }
   }
@@ -38,7 +45,7 @@ function constructData (schema, data = {}, { defaults = true } = {}) {
 }
 
 export class Model {
-  constructor (data = {}, { mapping, defaults = true } = {}) {
+  constructor (data = {}, { mapping, defaults = true, nullAsUndefined } = {}) {
     let schema = this.constructor.schema
     if (typeof schema !== 'object' || !schema) {
       throw new Error('No schema set on class')
@@ -75,7 +82,7 @@ export class Model {
       data = mappedData
     }
 
-    data = constructData(schema, data, { defaults })
+    data = constructData(schema, data, { defaults, nullAsUndefined })
 
     for (let property of Object.getOwnPropertyNames(schema)) {
       if (typeof schema[property] !== 'object' || !schema[property]) {
