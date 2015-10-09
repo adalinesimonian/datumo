@@ -1,3 +1,4 @@
+/* global Symbol */
 'use strict'
 
 import lxValid from 'lx-valid'
