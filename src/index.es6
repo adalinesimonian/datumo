@@ -162,8 +162,4 @@ export class Model {
     }
     return lxValid.validate(data, { properties: this.schema })
   }
-
-  validate () {
-    return this.constructor.validate(this)
-  }
 }
