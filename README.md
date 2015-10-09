@@ -36,7 +36,7 @@ amanda.givenName === 'Amanda'
 amanda.familyName === 'Bryson'
 amanda.email === 'amanda@example.com'
 
-amanda.validate().valid === true
+Person.validate(amanda).valid === true
 ```
 
 ## Why
@@ -87,7 +87,7 @@ let jeff = new Person({
   givenName: 'Jeff',
   email: 'Don\'t send me any e-mails!'
 })
-let validationResults = jeff.validate()
+let validationResults = Person.validate(jeff)
 
 validationResults.valid === false
 validationResults.errors.length === 2
