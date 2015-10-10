@@ -27,6 +27,18 @@ function mapData (mapping, data = {}, { out = false } = {}) {
   return mappedData
 }
 
+function unrequire (schema) {
+  schema = Object.assign({}, schema)
+  Object.keys(schema).forEach(prop => {
+    schema[prop] = Object.assign({}, schema[prop])
+    if (schema[prop].properties) {
+      schema[prop].properties = unrequire(schema[prop].properties)
+    }
+    schema[prop].required = false
+  })
+  return schema
+}
+
 function constructData (schema, data = {}, {
   defaults = true, nullAsUndefined
 } = {}) {
@@ -165,11 +177,15 @@ export class Model {
     }
   }
 
-  static validate (data) {
-    if (typeof this.schema !== 'object' || !this.schema) {
+  static validate (data, { definedOnly = false } = {}) {
+    let schema = this.schema
+    if (typeof schema !== 'object' || !schema) {
       throw new Error('No schema set on class')
     }
-    return lxValid.validate(data, { properties: this.schema })
+    if (definedOnly) {
+      schema = unrequire(schema)
+    }
+    return lxValid.validate(data, { properties: schema })
   }
 
   static map (instance, mapping) {
