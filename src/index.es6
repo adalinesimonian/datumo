@@ -4,14 +4,22 @@
 import lxValid from 'lx-valid'
 import jshiki from 'jshiki'
 
-function mapData (mapping, data) {
+function mapData (mapping, data = {}, { out = false } = {}) {
   let mappedData = {}
   for (let targetProperty of Object.getOwnPropertyNames(mapping)) {
     if (typeof mapping[targetProperty] === 'object') {
-      mappedData[targetProperty] = mapData(mapping[targetProperty], data)
+      if (out) {
+        Object.assign(mappedData, mapData(mapping[targetProperty], data[targetProperty], { out }))
+      } else {
+        mappedData[targetProperty] = mapData(mapping[targetProperty], data, { out })
+      }
     } else if (typeof mapping[targetProperty] === 'string') {
-      let map = jshiki.parse(mapping[targetProperty], { scope: data })
-      mappedData[targetProperty] = map.eval()
+      if (out) {
+        mappedData[mapping[targetProperty]] = data[targetProperty]
+      } else {
+        let map = jshiki.parse(mapping[targetProperty], { scope: data })
+        mappedData[targetProperty] = map.eval()
+      }
     } else {
       throw new Error('mapping value must be an object or a string')
     }
@@ -162,5 +170,18 @@ export class Model {
       throw new Error('No schema set on class')
     }
     return lxValid.validate(data, { properties: this.schema })
+  }
+
+  static map (instance, mapping) {
+    if (typeof mapping === 'string') {
+      if (!this.mappings || !this.mappings[mapping]) {
+        throw new Error(`The mapping ${mapping} is not defined on the class`)
+      }
+      mapping = this.mappings[mapping]
+    }
+    if (typeof mapping !== 'object' && typeof mapping !== 'string') {
+      throw new Error('mapping must be specified as an object or a string')
+    }
+    return mapData(mapping, instance, { out: true })
   }
 }
