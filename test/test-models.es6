@@ -87,9 +87,11 @@ function createAddressablePersonModel () {
     static get mappings () {
       return {
         'ldap': {
-          familyName: 'sn || surname',
+          givenName: 'givenName',
+          middleName: 'middleName',
+          familyName: 'sn',
           address: {
-            street: 'streetAddress || street',
+            street: 'streetAddress',
             locality: 'l',
             region: 'st',
             postalCode: 'postalCode',
