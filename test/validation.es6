@@ -17,4 +17,18 @@ describe('Validation', () => {
     expect(validationResults.valid).to.equal(false)
     expect(validationResults.errors).to.have.length(2)
   })
+
+  it('should not validate undefined properties when using definedOnly', () => {
+    let Person = testModels.createPersonModel()
+    let validationResults = Person.validate({
+      givenName: 'Jeff',
+      familyName: undefined,
+      email: 'Don\'t send me emails!'
+    }, { definedOnly: true })
+
+    expect(validationResults).to.be.an('object')
+    expect(validationResults.valid).to.equal(false)
+    expect(validationResults.errors).to.have.length(1)
+    expect(validationResults.errors[0].property).to.equal('email')
+  })
 })
