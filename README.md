@@ -259,7 +259,35 @@ apiClient.getUserInfo()
   // ...
 ```
 
+You can also map data out of a Datumo model to use it in a service. Only
+properties defined in the mapping will be in the output object. For example,
+using the sample `User` class above:
+
+```javascript
+let amanda = new User({
+  givenName: 'Amanda',
+  middleName: 'Barrett',
+  familyName: 'Bryson',
+  email: 'amanda@example.com'
+})
+
+let apiFriendlyAmanda = User.map(amanda, 'serviceC')
+
+apiFriendlyAmanda.name === 'Amanda'
+apiFriendlyAmanda.middle_initial === 'Barrett'
+apiFriendlyAmanda.surname === 'Bryson'
+apiFriendlyAmanda.mail === 'amanda@example.com'
+
+apiClient.updateUserInfo(amanda.email, apiFriendlyAmanda)
+// ...
+```
+
 #### Expressions
+
+>**NOTE:** Expressions work great with mapping data into a Datumo model.
+>However, they're not designed to work with mapping data out of a Datumo model.
+>If you're using the `map` function, make sure that you are using a mapping that
+>uses simple property names instead of expressions.
 
 Property mappings support [a limited subset of Javascript][jshiki] that you can
 use when facing data that requires more complex logic to be mapped properly.
