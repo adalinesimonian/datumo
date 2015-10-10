@@ -95,6 +95,32 @@ validationResults.errors.length === 2
 // email is not a valid e-mail address
 ```
 
+#### Validating defined properties only
+
+If you're working with a database, occassionally you may want only to validate
+properties that are defined as a part of an update or a patch request. With the
+`definedOnly` option, the `validate` function treats all properties on the
+schema as though they are not required, effectively ignoring any undefined
+properties.
+
+```javascript
+let vanessa = new Person({
+  givenName: 'Vanessa',
+  email: 'thisisnotavalidemail'
+})
+let results = Person.validate(vanessa)
+let resultsDefinedOnly = Person.validate(vanessa, { definedOnly: true })
+
+results.valid === false
+results.errors.length === 2
+// familyName is required
+// email is not a valid e-mail address
+
+resultsDefinedOnly.valid === false
+resultsDefinedOnly.errors.length === 1
+// email is not a valid e-mail address
+```
+
 ### Extension
 
 Because Datumo models are ES6 classes, you can easily extend them:
