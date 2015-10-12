@@ -41,9 +41,9 @@ Person.validate(amanda).valid === true
 
 ## Why
 
-ES6 provides a lot of new conveniences, arguably the most notable addition being
-class support. Datumo makes data modelling using ES6 classes incredibly easy and
-syntactically compact.
+ES6 provides a lot of new conveniences, with classes arguably as the most
+notable addition. Datumo makes data modelling using ES6 classes incredibly easy
+and syntactically compact.
 
 ## Details
 
