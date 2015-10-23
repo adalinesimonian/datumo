@@ -127,6 +127,10 @@ export class Model {
     Object.seal(this)
   }
 
+  static get modelName () {
+    return this.name
+  }
+
   static subset (...properties) {
     if (typeof this.schema !== 'object' || !this.schema) {
       throw new Error('No schema set on class')
